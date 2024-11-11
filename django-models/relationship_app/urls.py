@@ -4,6 +4,7 @@ from .views import list_books
 from .views import CustomLoginView, CustomLogoutView, RegisterView
 from .views import list_books, RegisterView, CustomLoginView, CustomLogoutView
 
+
 urlpatterns = [
     path('books/', views.list_books, name='list_books'),
     path('library/<int:pk>/', views.LibraryDetailView.as_view(), name='library_detail'),
@@ -16,4 +17,11 @@ urlpatterns = [
 
     # URL for logout (custom class-based view)
     path('logout/', CustomLogoutView.as_view(), name='logout'), 
+    
+    path('register/', views.register),
+
+    path('logout/', LogoutView.as_view(template_name='relationship_app/logout.html')),
+    path ('login/', LoginView.as_view(template_name='relationship_app/login.html')),
+    
+
 ]
