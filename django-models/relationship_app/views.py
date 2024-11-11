@@ -11,6 +11,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import user_passes_test
 
 # Function-based view to list all books
 def list_books(request):
@@ -43,5 +44,32 @@ class RegisterView(View):
     # logout view
     class CustomLogoutView(LogoutView):
         template_name = 'relationship_app/logout.html'
+
+    # Role based views 
+    def is_admin(user):
+        return user.userprofile.role == 'admin'
+    
+    def is_library(user):
+        return user.userprofile.role == 'library'
+    
+    def is_member(user):
+        return user.userprofile.role == 'member'
+    
+    # admin view
+    @user_passes_test(is_admin)
+    def admin_view(request):
+        return render(request, 'relationship_app/admin.html')
+    
+    # library view
+    @user_passes_test(is_library)
+    def library_view(request):
+        return render(request, 'relationship_app/library.html')
+    
+    # member view
+    @user_passes_test(is_member)
+    def member_view(request):
+        return render(request, 'relationship_app/member.html')
+    
+    
 
 
