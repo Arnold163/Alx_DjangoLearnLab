@@ -3,7 +3,6 @@
 from django.shortcuts import render
 from django.views.generic.detail import DetailView
 from .models import Book, Library  
-from .models import Library
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect, render
@@ -14,6 +13,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponseForbidden
 from .models import Book
 from .forms import BookForm
 
@@ -49,7 +49,7 @@ class RegisterView(View):
     class CustomLogoutView(LogoutView):
         template_name = 'relationship_app/logout.html'
 
-    # Role based views 
+    # Role based views helper functions
     def is_admin(user):
         return hasattr(user, 'userprofile') and user.userprofile.role == 'admin'
     
@@ -62,17 +62,17 @@ class RegisterView(View):
    # Admin view, accessible only to users with the 'admin' role
     @user_passes_test(is_admin, login_url='/access-denied/')
     def admin_view(request):
-     return render(request, 'relationship_app/admin.html')
+     return render(request, 'relationship_app/admin_view.html')
 
 # Library view, accessible only to users with the 'library' role
     @user_passes_test(is_library, login_url='/access-denied/')
     def library_view(request):
-        return render(request, 'relationship_app/library.html')
+        return render(request, 'relationship_app/library_view.html')
 
 # Member view, accessible only to users with the 'member' role
     @user_passes_test(is_member, login_url='/access-denied/')
     def member_view(request):
-        return render(request, 'relationship_app/member.html')
+        return render(request, 'relationship_app/member_view.html')
     
     def access_denied(request):
         return render(request, 'relationship_app/access_denied.html')
