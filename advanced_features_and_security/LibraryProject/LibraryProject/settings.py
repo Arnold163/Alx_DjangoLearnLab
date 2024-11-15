@@ -129,3 +129,4 @@ LOGIN_REDIRECT_URL = 'home'  # Replace 'home' with the name of your home page ro
 LOGOUT_REDIRECT_URL = 'login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
