@@ -43,6 +43,8 @@ SECURE_HSTS_PRELOAD = True
 ALLOWED_HOSTS = []
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
