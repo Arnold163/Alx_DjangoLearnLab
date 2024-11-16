@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import permission_required
 from .models import Book
+from .forms import ExampleForm
 
 # Book List View
 @permission_required('bookshelf.can_view', raise_exception=True)
@@ -38,3 +39,13 @@ def delete_book(request, pk):
         book.delete()
         return redirect('book_list')  # Redirect to the book list after deletion
     return render(request, 'bookshelf/delete_book.html', {'book': book})
+
+
+# Example of a secure search functionality using Django ORM
+def search_books(request):
+    query = request.GET.get('query', '')  # Safe to use in ORM
+    if query:
+        books = Book.objects.filter(title__icontains=query)  # Use ORM to filter books safely
+    else:
+        books = Book.objects.all()
+    return render(request, 'bookshelf/book_list.html', {'books': books})
