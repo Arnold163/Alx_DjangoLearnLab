@@ -50,7 +50,7 @@ class RegisterView(View):
         template_name = 'relationship_app/logout.html'
 
     # Role based views helper functions
-    def is_admin():
+    def is_admin(user):
         return hasattr(user, 'userprofile') and user.userprofile.role == 'admin'
     
     def is_library(user):
@@ -60,7 +60,7 @@ class RegisterView(View):
         return hasattr(user, 'userprofile') and user.userprofile.role == 'member'
     
    # Admin view, accessible only to users with the 'admin' role
-    @user_passes_test(admin_test)
+    @user_passes_test(is_admin, login_url='/access-denied/')
     def admin_view(request):
      return render(request, 'relationship_app/admin_view.html')
 
