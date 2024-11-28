@@ -6,7 +6,7 @@ from .permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 
-class listView (generics.ListAPView):
+class ListView (generics.ListAPView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
