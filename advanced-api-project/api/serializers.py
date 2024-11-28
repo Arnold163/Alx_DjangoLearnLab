@@ -23,3 +23,10 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = Author
         fields = ['id', 'name', 'books']
 
+class Bookserializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book 
+        fields = ['id', 'title', 'publication_year', 'author']
+        
+    
+
