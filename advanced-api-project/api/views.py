@@ -3,13 +3,28 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from .models import Book
 from .serializers import BookSerializer
 from .permissions import IsOwnerOrReadOnly
+from django_filters import rest_framework as filters
 
 # Create your views here.
+
+class BookFilter(filters.FilterSet):
+    title = filters.CharFilter(field_name='title', lookup_expr='icontains')
+    author = filters.CharFilter(field_name='author', lookup_expr='icontains')
+    publication_year = filters.NumberFilter(field_name='publication_year')
+
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'publication_year']
 
 class ListView (generics.ListAPView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+    filter_backends = [filters.DjangoFilterBackend, rest_filters.SearchFilter]
+    filterset_class = BookFilter
+    search_fields = ['title', 'author']
+    ordering_fields = ['title', 'publication_year']
+
 
 class DetailView(generics.RetrieveAPIView):
     queryset = Book.objects.all()
