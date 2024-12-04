@@ -9,6 +9,8 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
+from django.db.models import Q
+
 
 #list view  to display all blog posts
 class PostListView(ListView):
@@ -120,3 +122,9 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         comment = self.get_object()
         return self.request.user == comment.author
+    
+    def search_post(request):
+        query = request.GET.get('q')
+        results = Post.objects.filter(Q(title__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query))
+        return render(request, 'blog/search_results.html', {'results': results})
+    
