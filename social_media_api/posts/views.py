@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from .models import Post, Like
 from notifications.models import Notification
-
+from .serializers import PostSerializer
 
 # Create your views here.
 class PostViewSet(viewsets.ModelViewSet):
