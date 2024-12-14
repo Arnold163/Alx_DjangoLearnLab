@@ -20,3 +20,6 @@ class UserSerializer(serializers.ModelSerializer):
         )
         Token.objects.create(user=user)
         return user
+    
+    get_user_model().objects.create_user
+    serializers.CharField()
